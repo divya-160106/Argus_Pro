@@ -3,13 +3,18 @@ import requests
 import pandas as pd
 import os
 from dotenv import load_dotenv
+from pathlib import Path
 
 load_dotenv()
 
 st.set_page_config(page_title="Argus", layout="wide" )
-def load_css(file_path):
-    with open(file_path) as f:
-        st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+def load_css(file_name):
+    css_path = Path(__file__).parent / file_name
+    with open(css_path) as f:
+        st.markdown(
+            f"<style>{f.read()}</style>",
+            unsafe_allow_html=True,
+        )
 load_css("style.css")
 st.title("Argus")
 st.subheader("AI Warehouse Congestion Prediction")
