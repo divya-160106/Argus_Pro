@@ -20,8 +20,8 @@ X = []
 Y = []
 
 for i in range( len(scaled) - SEQUENCE_LENGTH ):
-    X.append( scaled [i:i+SEQUENCE_LENGTH] )
-    Y.append( scaled [i+SEQUENCE_LENGTH]   )
+    X.append( scaled [i:i+SEQUENCE_LENGTH] ) #hour 1 to 10
+    Y.append( scaled [i+SEQUENCE_LENGTH]   ) #hour 11
 
 X = np.array(X)
 Y = np.array(Y)

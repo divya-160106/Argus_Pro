@@ -8,13 +8,10 @@ import pandas as pd
 print("Loading processed data...")
 
 data = np.load("ml/processed_data.npz")
-
 X_train = data["X_train"]
 X_test = data["X_test"]
-
 Y_train = data["Y_train"]
 Y_test = data["Y_test"]
-
 print(X_train.shape)
 print(Y_train.shape)
 
@@ -42,7 +39,6 @@ history = model.fit(
     batch_size=32,
     callbacks=callbacks
 )
-
 history_df = pd.DataFrame(history.history)
 history_df.to_csv("ml/training_history.csv", index=False) 
 

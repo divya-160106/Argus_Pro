@@ -23,71 +23,22 @@ def home():
     }
 
 @app.get("/warehouse")
-def get_warehouse_data( limit: int = Query(default=10, ge=1, le=1000), 
-    date: str | None = None,
-    day: str | None = None,
-    hour: int | None = Query(default=None, ge=0, le=23),
-    weather: str | None = None,
-    min_workers: int | None = None,
-    max_workers: int | None = None,
-    min_docks: int | None = None,
-    max_docks: int | None = None,
-    min_trucks: int | None = None,
-    max_trucks: int | None = None,
-    min_congestion: float | None = None,
-    max_congestion: float | None = None,
-):
-    query = {}
-
-    # Exact Match Filters
-    if date:
-        query["date"] = date
-    if day:
-        query["day"] = day
-    if hour is not None:
-        query["hour"] = hour
-    if weather:
-        query["weather"] = weather
-
-    # Worker Range
-    if min_workers is not None or max_workers is not None:
-        query["workers_present"] = {}
-        if min_workers is not None:
-            query["workers_present"]["$gte"] = min_workers
-        if max_workers is not None:
-            query["workers_present"]["$lte"] = max_workers
-
-    # Occupied Docks Range
-    if min_docks is not None or max_docks is not None:
-        query["occupied_docks"] = {}
-        if min_docks is not None:
-            query["occupied_docks"]["$gte"] = min_docks
-        if max_docks is not None:
-            query["occupied_docks"]["$lte"] = max_docks
-
-    # Truck Arrival Range
-    if min_trucks is not None or max_trucks is not None:
-        query["truck_arrival_rate"] = {}
-        if min_trucks is not None:
-            query["truck_arrival_rate"]["$gte"] = min_trucks
-        if max_trucks is not None:
-            query["truck_arrival_rate"]["$lte"] = max_trucks
-
-    # Congestion Score Range
-    if min_congestion is not None or max_congestion is not None:
-        query["congestion_score"] = {}
-        if min_congestion is not None:
-            query["congestion_score"]["$gte"] = min_congestion
-        if max_congestion is not None:
-            query["congestion_score"]["$lte"] = max_congestion
-
-    # Fetch Data
+def get_warehouse_data( page: int = Query(default=1, ge=1), page_size: int = Query(default=100, ge=1, le=100) ):
+    skip = (page - 1) * page_size
+    total_records = warehouse_collection.count_documents({})
     docs = list(
-        warehouse_collection.find( query, {"_id": 0} )
-        .sort([ ("date", -1), ("hour", -1) ])
-        .limit(limit)
+        warehouse_collection.find({}, {"_id": 0})
+        .sort([("date", -1), ("hour", -1)])
+        .skip(skip)
+        .limit(page_size)
     )
-    return docs
+    return {
+        "page": page,
+        "page_size": page_size,
+        "total_records": total_records,
+        "total_pages": (total_records + page_size - 1) // page_size,
+        "data": docs
+    }
 
 @app.get("/dates")
 def get_available_dates():
