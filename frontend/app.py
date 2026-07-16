@@ -26,15 +26,11 @@ BASE_URL = os.getenv(
 )
 prediction = requests.get( f"{BASE_URL}/predict" ).json()
 
-@st.cache_data
-def get_filters():
-    return requests.get(f"{BASE_URL}/filters").json()
-
 @st.cache_data(ttl=10)
-def get_records(params):
+def get_records(page):
     return requests.get(
         f"{BASE_URL}/warehouse",
-        params=params
+        params={"page": page}
     ).json()
 
 #Columns
@@ -62,33 +58,12 @@ elif score < 70:
 else:
     st.error("🔴 Warehouse Status: High Congestion")
 
-#Sidebar
-filters = requests.get( f"{BASE_URL}/filters" ).json()
-with st.sidebar:
-    st.header("Filters")
-    date = st.selectbox("Date", ["All"] + filters["dates"])
-    day = st.selectbox("Day", ["All"] + filters["days"])
-    weather = st.selectbox("Weather", ["All"] + filters["weather"])
-    hour = st.number_input("Hour", 0, 23, value=0)
-    record_limit = st.sidebar.slider(
-        "Records to Display",
-        min_value=5,
-        max_value=100,
-        value=10,
-        step=5
-    )
-
-    params = {}
-    if date != "All":
-        params["date"] = date
-    if day != "All":
-        params["day"] = day
-    if weather != "All":
-        params["weather"] = weather
-    params["limit"] = record_limit
-    records = requests.get( f"{BASE_URL}/warehouse", params=params).json()
-
 #Table
+if "page" not in st.session_state:
+    st.session_state.page = 1
+response = get_records(st.session_state.page)
+records = response["data"]
+
 df = pd.DataFrame(records)
 st.subheader("Warehouse Records")
 COLUMN_NAMES = {
@@ -115,3 +90,21 @@ st.dataframe(df, use_container_width=True,
     column_config={
         col: st.column_config.Column(width="medium") for col in df.columns
     })
+col1, col2, col3 = st.columns([1, 2, 1])
+with col1:
+    if st.button("⬅ Previous") and st.session_state.page > 1:
+        st.session_state.page -= 1
+        st.cache_data.clear()
+        st.rerun()
+with col2:
+    st.markdown(
+        f"<h4 style='text-align:center;'>"
+        f"Page {response['page']} of {response['total_pages']}"
+        f"</h4>",
+        unsafe_allow_html=True
+    )
+with col3:
+    if st.button("Next ➡") and st.session_state.page < response["total_pages"]:
+        st.session_state.page += 1
+        st.cache_data.clear()
+        st.rerun()
