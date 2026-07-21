@@ -5,6 +5,7 @@ from config import MODEL_FEATURES, SEQUENCE_LENGTH
 from datetime import datetime, timedelta
 from ml.model_loader import ( get_model, get_scaler )
 from ml.business_logic import calculate_business_metrics
+import  time
 
 #Helper for weather preprocessing
 def prepare_input(df):
@@ -28,7 +29,7 @@ def load_latest_sequence():
 
 # Date time logic
 def advance_datetime(previous_state):
-    current = datetime.strptime( f"{previous_state['date']} {previous_state['hour']}", "%Y-%m-%d %H" )
+    current = datetime.strptime( f"{previous_state['date']} {int(previous_state['hour'])}", "%Y-%m-%d %H" )
     next_time = current + timedelta(hours=1)
     return {
         "date": next_time.strftime("%Y-%m-%d"),
@@ -40,25 +41,31 @@ def advance_datetime(previous_state):
 def predict_future(hours=168):
     history = load_latest_sequence()
     predictions = []
+    model = get_model()
+    scaler = get_scaler()
     for _ in range(hours):
-        operational = predict_operational_state(history)
+        start = time.perf_counter()
+        operational = predict_operational_state(history, model, scaler)
+        print( f"Inference {time.perf_counter()-start:.4f}s" )
         previous_state = history.iloc[-1].to_dict()
+        start = time.perf_counter()
         full_prediction = calculate_business_metrics( operational, previous_state )
+        print(f"Business metrics: {time.perf_counter() - start:.4f}s")
         datetime_info = advance_datetime(previous_state)
         full_prediction.update(datetime_info)
         predictions.append(full_prediction)
-        history = pd.concat( [ history.iloc[1:], pd.DataFrame([full_prediction]) ], ignore_index=True )
+        start = time.perf_counter()
+        history = history.shift(-1)
+        history.iloc[-1] = full_prediction
+        print(f"History update: {time.perf_counter() - start:.4f}s")
     return predictions
 
-def predict_operational_state(sequence):
-    model = get_model()
-    scaler = get_scaler()
-
+def predict_operational_state(sequence, model, scaler):
     latest = prepare_input(sequence)
     scaled = scaler.transform(latest)
 
     X = np.expand_dims( scaled, axis=0 )
-    prediction = model.predict( X, verbose=0 )
+    prediction = model.run( None, {model.get_inputs()[0].name: X.astype(np.float32)} )[0]
     prediction = scaler.inverse_transform( prediction )[0]
 
     #Weather one hot encoding

@@ -3,13 +3,36 @@ from database import warehouse_collection
 from ml.predict import predict_future
 from fastapi.middleware.cors import CORSMiddleware
 from prediction_cache import get_predictions, set_predictions
+from contextlib import asynccontextmanager
+from ml.model_loader import load_resources
+import os
+import time
 
-app = FastAPI( title="Argus", version="1.0.0" )
+FRONTEND_URL = os.getenv("FRONTEND_URL")
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    start = time.perf_counter()
+    print("Loading ML resources...")
+    # Load model + scaler
+    load_resources()
+    print(f"Resources loaded in {time.perf_counter() - start:.2f}s")
+
+    # Generate predictions once
+    pred_start = time.perf_counter()
+    predictions = predict_future()
+    set_predictions(predictions)
+    print(f"Predictions generated in {time.perf_counter() - pred_start:.2f}s")
+    print(f"Startup completed in {time.perf_counter() - start:.2f}s")
+    print("Prediction cache ready!")
+    yield
+
+app = FastAPI( title="Argus", version="1.0.0", lifespan=lifespan )
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "API_URL",
+        "FRONTEND_URL",
         "http://localhost:8501"
     ],
     allow_credentials=True,
@@ -68,10 +91,4 @@ def get_filters():
 
 @app.get("/predict")
 def predict():
-    cached = get_predictions()
-
-    if cached is None:
-        cached = predict_future()
-        set_predictions(cached)
-
-    return cached
+    return get_predictions()
