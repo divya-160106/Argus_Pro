@@ -1,0 +1,76 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+.summary-grid{
+
+    margin-top:35px;
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:20px;
+
+}
+
+.summary-card{
+
+    background:var(--panel);
+
+    border:2px solid var(--border);
+
+    border-radius:16px;
+
+    padding:24px;
+
+    transition:.25s;
+
+    cursor:default;
+
+}
+
+.summary-card:hover{
+
+    transform:translateY(-6px);
+
+}
+
+.summary-card h3{
+
+    color:#ccccff;
+
+    font-weight:500;
+
+}
+
+.summary-card h1{
+
+    margin-top:18px;
+
+    font-size:42px;
+
+}
+
+.purple{
+
+    box-shadow:0 0 18px rgba(139,92,246,.25);
+
+}
+
+.blue{
+
+    box-shadow:0 0 18px rgba(84,183,255,.25);
+
+}
+
+.green{
+
+    box-shadow:0 0 18px rgba(114,255,122,.25);
+
+}
+
+.pink{
+
+    box-shadow:0 0 18px rgba(255,79,216,.25);
+
+}

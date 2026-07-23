@@ -1,0 +1,77 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+.date-section{
+
+    margin-top:35px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:10px;
+}
+
+.date-section label{
+
+    color:#39ff88;
+
+    font-family:'Press Start 2P', monospace;
+
+    font-size:12px;
+
+    letter-spacing:1px;
+}
+
+.date-section select{
+
+    padding:14px;
+
+    background:#000;
+
+    color:#39ff88;
+
+    border:3px solid #9d4edd;
+
+    clip-path:polygon(
+        0 8px, 8px 8px, 8px 0,
+        calc(100% - 8px) 0, calc(100% - 8px) 8px, 100% 8px,
+        100% calc(100% - 8px), calc(100% - 8px) calc(100% - 8px), calc(100% - 8px) 100%,
+        8px 100%, 8px calc(100% - 8px), 0 calc(100% - 8px)
+    );
+
+    font-family:'Courier New', monospace;
+
+    font-size:16px;
+
+    box-shadow:0 4px 0 #4c1d95;
+
+    cursor:pointer;
+
+    appearance:none;
+
+    transition:.08s;
+}
+
+.date-section select:active{
+
+    transform:translateY(4px);
+
+    box-shadow:0 0 0 #4c1d95;
+}
+
+.date-section select:focus{
+
+    outline:none;
+
+    border-color:#ff70e0;
+
+    box-shadow:0 4px 0 #4c1d95, 0 0 8px rgba(255,112,224,.5);
+}
+
+.date-section select option{
+
+    background:#000;
+
+    color:#39ff88;
+}

@@ -1,0 +1,226 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+.warehouse-table{
+
+    margin-top: 2rem;
+    padding: 1.8rem;
+
+    background: #1a0526;
+    border: 4px solid #9d4edd;
+
+    clip-path:polygon(
+        0 12px, 12px 12px, 12px 0,
+        calc(100% - 12px) 0, calc(100% - 12px) 12px, 100% 12px,
+        100% calc(100% - 12px), calc(100% - 12px) calc(100% - 12px), calc(100% - 12px) 100%,
+        12px 100%, 12px calc(100% - 12px), 0 calc(100% - 12px)
+    );
+
+    box-shadow:
+        0 0 0 4px #1a0526,
+        0 0 0 8px #6d28d9,
+        0 0 12px rgba(123,44,255,.3);
+
+}
+
+.warehouse-table h2{
+
+    margin-bottom: 1.5rem;
+
+    color:#e0aaff;
+    font-family:'Press Start 2P', monospace;
+    font-size:1.1rem;
+    letter-spacing:2px;
+    text-shadow:0 0 4px #9d4dff;
+
+}
+
+.warehouse-table table{
+
+    width:100%;
+    border-collapse:collapse;
+    overflow:hidden;
+
+}
+
+.warehouse-table thead{
+
+    background:#3c1361;
+
+}
+
+.warehouse-table th{
+
+    padding:14px;
+    color:#f4e8ff;
+    font-family:'Press Start 2P', monospace;
+    font-size:11px;
+    letter-spacing:1px;
+    text-align:center;
+    border-bottom:3px solid #9d4edd;
+
+}
+
+.warehouse-table td{
+
+    padding:12px;
+    text-align:center;
+    color:#e0d0ff;
+    font-family:'Courier New', monospace;
+    font-size:15px;
+    border-bottom:1px dashed rgba(157,78,221,.3);
+
+}
+
+.warehouse-table tbody tr{
+
+    transition:.15s;
+
+}
+
+.warehouse-table tbody tr:nth-child(even){
+
+    background:rgba(157,78,221,.05);
+
+}
+
+.warehouse-table tbody tr:hover{
+
+    background:#2d1b69;
+
+    box-shadow:inset 0 0 0 2px #ff70e0;
+
+}
+
+.pagination{
+
+    margin-top:1.8rem;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:1rem;
+
+}
+
+.pagination button{
+
+    background:#6d28d9;
+    color:#fff;
+
+    border:3px solid #e0aaff;
+
+    clip-path:polygon(
+        0 6px, 6px 6px, 6px 0,
+        calc(100% - 6px) 0, calc(100% - 6px) 6px, 100% 6px,
+        100% calc(100% - 6px), calc(100% - 6px) calc(100% - 6px), calc(100% - 6px) 100%,
+        6px 100%, 6px calc(100% - 6px), 0 calc(100% - 6px)
+    );
+
+    padding:.7rem 1.3rem;
+
+    font-family:'Press Start 2P', monospace;
+    font-size:12px;
+
+    cursor:pointer;
+
+    box-shadow:0 4px 0 #4c1d95;
+
+    transition:.08s;
+
+}
+
+.pagination button:hover:not(:disabled){
+
+    background:#9333ea;
+
+}
+
+.pagination button:active:not(:disabled){
+
+    transform:translateY(4px);
+    box-shadow:0 0 0 #4c1d95;
+
+}
+
+.pagination button:disabled{
+
+    opacity:.3;
+    cursor:not-allowed;
+    box-shadow:0 4px 0 #2e1065;
+
+}
+
+.pagination select{
+
+    background:#000;
+    color:#39ff88;
+
+    border:3px solid #9d4edd;
+
+    clip-path:polygon(
+        0 6px, 6px 6px, 6px 0,
+        calc(100% - 6px) 0, calc(100% - 6px) 6px, 100% 6px,
+        100% calc(100% - 6px), calc(100% - 6px) calc(100% - 6px), calc(100% - 6px) 100%,
+        6px 100%, 6px calc(100% - 6px), 0 calc(100% - 6px)
+    );
+
+    padding:.65rem 1rem;
+
+    font-family:'Courier New', monospace;
+    font-size:14px;
+
+    outline:none;
+    cursor:pointer;
+
+}
+
+.pagination select:focus{
+
+    border-color:#ff70e0;
+    box-shadow:0 0 8px rgba(255,112,224,.5);
+
+}
+
+.warehouse-table span{
+
+    display:block;
+    text-align:center;
+
+    margin-top:1rem;
+
+    color:#c8b5ff;
+    font-family:'Courier New', monospace;
+    font-weight:600;
+
+}
+
+@media(max-width:1100px){
+
+    .warehouse-table{
+
+        overflow-x:auto;
+
+    }
+
+    .warehouse-table table{
+
+        min-width:900px;
+
+    }
+
+}
+
+.warehouse-table{
+
+    max-height:700px;
+    overflow:auto;
+
+}
+
+.warehouse-table thead th{
+
+    position:sticky;
+    top:0;
+    z-index:5;
+
+}

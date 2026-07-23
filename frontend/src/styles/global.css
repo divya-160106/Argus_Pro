@@ -1,0 +1,40 @@
+@import "./variables.css";
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+
+    background:
+    linear-gradient(
+        180deg,
+        #140B24,
+        #09050F
+    );
+
+    color:var(--text);
+
+    font-family:Inter,sans-serif;
+
+    min-height:100vh;
+}
+
+#root{
+
+    width:100%;
+    min-height:100vh;
+}
+
+button{
+
+    cursor:pointer;
+    font-family:inherit;
+}
+
+table{
+
+    border-collapse:collapse;
+}

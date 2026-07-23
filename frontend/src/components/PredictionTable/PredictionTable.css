@@ -1,0 +1,192 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+.prediction-table-container{
+
+    margin-top:40px;
+
+    border:4px solid #9d4edd;
+
+    clip-path:polygon(
+        0 12px, 12px 12px, 12px 0,
+        calc(100% - 12px) 0, calc(100% - 12px) 12px, 100% 12px,
+        100% calc(100% - 12px), calc(100% - 12px) calc(100% - 12px), calc(100% - 12px) 100%,
+        12px 100%, 12px calc(100% - 12px), 0 calc(100% - 12px)
+    );
+
+    background:#1a0526;
+
+    padding:25px;
+
+    box-shadow:
+        0 0 0 4px #1a0526,
+        0 0 0 8px #6d28d9,
+        0 0 12px rgba(168,85,247,.3);
+
+}
+
+.table-title{
+
+    text-align:center;
+
+    color:#ffd54a;
+
+    font-family:'Press Start 2P', monospace;
+
+    font-size:20px;
+
+    font-weight:700;
+
+    margin-bottom:25px;
+
+    letter-spacing:2px;
+
+    text-shadow:0 0 4px #ffd54a;
+
+    animation:flicker-yellow 4s infinite;
+
+}
+
+.prediction-table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+.prediction-table th{
+
+    background:#3c1361;
+
+    color:#e0aaff;
+
+    font-family:'Press Start 2P', monospace;
+
+    padding:14px 8px;
+
+    font-size:11px;
+
+    letter-spacing:1px;
+
+    border-bottom:3px solid #9d4edd;
+
+}
+
+.prediction-table td{
+
+    padding:14px;
+
+    text-align:center;
+
+    color:#f4e8ff;
+
+    font-family:'Courier New', monospace;
+
+    font-size:15px;
+
+    border-bottom:1px dashed rgba(157,78,221,.3);
+
+}
+
+.prediction-table tbody tr{
+
+    transition:.1s;
+
+}
+
+.prediction-table tbody tr:hover{
+
+    background:#2d1b69;
+
+    box-shadow:inset 0 0 0 2px #ff70e0;
+
+}
+
+.pagination{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-top:25px;
+
+}
+
+.pagination span{
+
+    color:#e0aaff;
+
+    font-family:'Press Start 2P', monospace;
+
+    font-size:12px;
+
+}
+
+.pagination button{
+
+    background:#6d28d9;
+
+    color:#fff;
+
+    border:3px solid #e0aaff;
+
+    clip-path:polygon(
+        0 6px, 6px 6px, 6px 0,
+        calc(100% - 6px) 0, calc(100% - 6px) 6px, 100% 6px,
+        100% calc(100% - 6px), calc(100% - 6px) calc(100% - 6px), calc(100% - 6px) 100%,
+        6px 100%, 6px calc(100% - 6px), 0 calc(100% - 6px)
+    );
+
+    padding:12px 18px;
+
+    font-family:'Press Start 2P', monospace;
+
+    font-size:12px;
+
+    cursor:pointer;
+
+    box-shadow:0 4px 0 #4c1d95;
+
+    transition:.08s;
+
+}
+
+.pagination button:hover:not(:disabled){
+
+    background:#9333ea;
+}
+
+.pagination button:active:not(:disabled){
+
+    transform:translateY(4px);
+
+    box-shadow:0 0 0 #4c1d95;
+
+}
+
+.pagination button:disabled{
+
+    opacity:.3;
+
+    cursor:not-allowed;
+
+    box-shadow:0 4px 0 #2e1065;
+
+}
+
+@keyframes flicker-yellow{
+
+    0%, 19%, 21%, 100%{
+
+        text-shadow:0 0 4px #ffd54a;
+    }
+
+    20%{
+
+        text-shadow:0 0 2px #ffd54a;
+
+        opacity:.85;
+    }
+}
